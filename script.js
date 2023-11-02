@@ -1,29 +1,24 @@
 // script.js
 window.addEventListener('load', function () {
     const compassNeedle = document.getElementById('needle');
-
-    // Specify the latitude and longitude of your target location
-    const targetLatitude = 40.1096473;
+    const targetLatitude = 40.1096473; // Example: San Francisco, CA
     const targetLongitude = -88.2272838;
 
     function updateCompass() {
         if ('geolocation' in navigator) {
-            navigator.geolocation.getCurrentPosition(function (position) {
+            navigator.geolocation.watchPosition(function (position) {
                 const userLatitude = position.coords.latitude;
                 const userLongitude = position.coords.longitude;
+                const angle = calculateAngle(userLatitude, userLongitude, targetLatitude, targetLongitude);
 
-                // Get device orientation
                 window.addEventListener('deviceorientation', function (event) {
                     const alpha = event.alpha;
-
-                    const angle = calculateAngle(userLatitude, userLongitude, targetLatitude, targetLongitude);
                     const rotatedAngle = angle - alpha;
 
                     compassNeedle.style.transform = `translateX(-50%) rotate(${rotatedAngle}deg)`;
                 });
             });
         } else {
-            // Handle browsers that do not support geolocation
             alert('Geolocation is not supported by your browser.');
         }
     }
