@@ -1,0 +1,30 @@
+/* style.css */
+.compass {
+    width: 200px;
+    height: 200px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    position: relative;
+    margin: 50px auto;
+}
+
+.compass-needle {
+    width: 20px;
+    height: 120px;
+    background-color: red;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: 50% 0;
+    transform: translateX(-50%) rotate(0deg);
+}
+
+.target {
+    width: 20px;
+    height: 20px;
+    background-color: blue;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    border-radius: 50%;
+}
