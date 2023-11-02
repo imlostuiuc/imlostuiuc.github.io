@@ -12,10 +12,17 @@ window.addEventListener('load', function () {
                 const angle = calculateAngle(userLatitude, userLongitude, targetLatitude, targetLongitude);
 
                 window.addEventListener('deviceorientation', function (event) {
-                    const alpha = event.alpha;
-                    const rotatedAngle = angle - alpha;
-
-                    compassNeedle.style.transform = `translateX(-50%) rotate(${rotatedAngle}deg)`;
+                    if (event.webkitCompassHeading !== undefined) {
+                        // For iOS devices
+                        const alpha = event.webkitCompassHeading;
+                        const rotatedAngle = angle - alpha;
+                        compassNeedle.style.transform = `translateX(-50%) rotate(${rotatedAngle}deg)`;
+                    } else if (event.alpha !== null) {
+                        // For non-iOS devices
+                        const alpha = event.alpha;
+                        const rotatedAngle = angle - alpha;
+                        compassNeedle.style.transform = `translateX(-50%) rotate(${rotatedAngle}deg)`;
+                    }
                 });
             });
         } else {
