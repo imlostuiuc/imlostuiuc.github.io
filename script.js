@@ -1,7 +1,6 @@
 // script.js
 window.addEventListener('load', function () {
     const compassNeedle = document.getElementById('needle');
-    const target = document.getElementById('target');
 
     // Specify the latitude and longitude of your target location
     const targetLatitude = 40.1096473;
@@ -13,9 +12,15 @@ window.addEventListener('load', function () {
                 const userLatitude = position.coords.latitude;
                 const userLongitude = position.coords.longitude;
 
-                const angle = calculateAngle(userLatitude, userLongitude, targetLatitude, targetLongitude);
+                // Get device orientation
+                window.addEventListener('deviceorientation', function (event) {
+                    const alpha = event.alpha;
 
-                compassNeedle.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+                    const angle = calculateAngle(userLatitude, userLongitude, targetLatitude, targetLongitude);
+                    const rotatedAngle = angle - alpha;
+
+                    compassNeedle.style.transform = `translateX(-50%) rotate(${rotatedAngle}deg)`;
+                });
             });
         } else {
             // Handle browsers that do not support geolocation
